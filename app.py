@@ -90,7 +90,7 @@ def activites_view():
 def robots():
     content = """User-agent: *
 Allow: /
-Sitemap: https://adrienmartin.vercel.app/sitemap.xml"""
+Sitemap: https://adrien-martin-data-reims.vercel.app/sitemap.xml"""
     return Response(content, mimetype='text/plain')
 
 
@@ -100,15 +100,15 @@ def sitemap():
     xml = '''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://adrienmartin.vercel.app/</loc>
+        <loc>https://adrien-martin-data-reims.vercel.app/</loc>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://adrienmartin.vercel.app/projets</loc>
+        <loc>https://adrien-martin-data-reims.vercel.app/projets</loc>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://adrienmartin.vercel.app/Profil</loc>
+        <loc>https://adrien-martin-data-reims.vercel.app/Profil</loc>
         <priority>0.8</priority>
     </url>
 </urlset>'''

@@ -30,3 +30,13 @@ Modifier `app.py` pour :
 - **Frontend** : HTML5, CSS3, JS vanilla
 - **Fonts** : Playfair Display, Tenor Sans, Lora (Google Fonts)
 - **Design** : Brandboard Adrien Martin (Navy #003366, Bordeaux #9E1B32, Crème #F4F1E1)
+
+
+## lancement
+
+- rm -rf venv
+- python3 -m venv venv
+- source venv/bin/activate
+- pip install Flask
+- python3 app.py
+
