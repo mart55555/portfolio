@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% block title %}Activités & Passions — Adrien Martin{% endblock %}
+{% block meta_desc %}Les passions d'Adrien Martin : finance, analyse de données, sport et jeux vidéo.{% endblock %}
+
+{% block extra_head %}
+<style>
+.page-hero {
+  background:var(--white);
+  padding:6rem 5vw 5rem 9vw;
+  border-bottom:1px solid var(--border);
+  position:relative; overflow:hidden;
+  display:grid; grid-template-columns:1.2fr 1fr; gap:5rem; align-items:end;
+}
+.page-hero::before {
+  content:''; position:absolute; left:5vw; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent 10%, var(--bord-light) 35%, var(--bord-light) 65%, transparent 90%);
+}
+
+.ph-l, .ph-r { position:relative; z-index:1; }
+
+.bq { border-left:2px solid var(--bord); padding-left:1.5rem; }
+.bq-text {
+  font-family:'Cormorant',serif; font-size:1.6rem; font-style:italic; font-weight:300;
+  color:var(--ink); line-height:1.55;
+}
+.bq-attr {
+  font-size:.65rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--bord); margin-top:.7rem; display:block;
+}
+
+/* ══ VALEURS ══ */
+.values-band {
+  background:var(--bord);
+  display:grid; grid-template-columns:repeat(3,1fr);
+}
+.val-cell {
+  padding:2.5rem 3vw; border-right:1px solid rgba(255,255,255,.14); text-align:center;
+  transition:background .22s;
+}
+.val-cell:last-child { border-right:none; }
+.val-cell:hover { background:rgba(0,0,0,.08); }
+.val-word { font-family:'Cormorant',serif; font-size:1.7rem; font-style:italic; font-weight:300; color:var(--cream); display:block; margin-bottom:.2rem; }
+.val-def { font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(244,241,225,.55); }
+
+.interests-sec { padding:7rem 5vw; background:var(--cream); border-bottom:1px solid var(--border); }
+.int-grid {
+  margin-top:3rem; display:grid; grid-template-columns:repeat(2,1fr);
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.int-card {
+  background:var(--white); padding:3rem;
+  position:relative; overflow:hidden; transition:background .22s;
+}
+.int-card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--bord), var(--bord));
+  transform:scaleX(0); transform-origin:left; transition:transform .35s;
+}
+.int-num {
+  position:absolute; top:1.5rem; right:2rem;
+  font-family:'Cormorant',serif; font-size:4.5rem; font-weight:700;
+  color: rgba(158,27,50,.15); pointer-events:none;
+}
+.int-lbl { font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:var(--bord); margin-bottom:.8rem; }
+.int-title { font-family:'Cormorant',serif; font-size:1.6rem; font-weight:300; color:var(--ink); margin-bottom:.3rem; line-height:1.1; }
+.int-tagline { font-family:'Cormorant',serif; font-style:italic; font-size:.92rem; color:var(--bord); margin-bottom:1.2rem; }
+.int-desc { font-size:.82rem; font-weight:300; color:var(--text-mid); line-height:1.82; margin-bottom:1.5rem; }
+.int-skills { list-style:none; display:flex; flex-wrap:wrap; gap:.4rem; }
+
+.tl-sec {
+  padding:7rem 5vw; background:var(--white);
+  border-bottom:1px solid var(--border);
+  display:grid; grid-template-columns:1fr 1fr; gap:7rem; align-items:start;
+}
+.tl-list { list-style:none; position:relative; padding-left:2rem; margin-top:2.5rem; }
+.tl-list::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, var(--bord) 0%, rgba(158,27,50,.1) 100%);
+}
+.tl-item { margin-bottom:2.8rem; position:relative; }
+.tl-item:last-child { margin-bottom:0; }
+.tl-dot {
+  position:absolute; left:-2rem; top:.4rem; transform:translateX(-50%);
+  width:8px; height:8px; background:var(--white);
+  border:2px solid var(--bord); border-radius:50%; transition:background .2s;
+}
+.tl-item:hover .tl-dot { background:var(--bord); }
+.tl-period { font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:var(--bord); margin-bottom:.3rem; }
+.tl-title { font-family:'Cormorant',serif; font-size:1.12rem; font-weight:400; color:var(--ink); margin-bottom:.3rem; }
+.tl-desc { font-size:.8rem; font-weight:300; color:var(--text-mid); line-height:1.75; }
+
+.goals-list {
+  list-style:none; display:flex; flex-direction:column;
+  gap:1px; background:var(--border); border:1px solid var(--border); margin-top:2.5rem;
+}
+.goal-row {
+  background:var(--white); padding:1.2rem 1.5rem;
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  transition:background .2s;
+}
+.goal-text { font-size:.82rem; font-weight:300; color:var(--text-mid); }
+.g-badge { font-size:.52rem; letter-spacing:.14em; text-transform:uppercase; padding:.18rem .55rem; border-radius:1px; flex-shrink:0; white-space:nowrap; }
+.g-active { color:var(--bord); border:1px solid var(--bord-light); background:var(--bord-glow); }
+.g-next   { color:var(--ink); border:1px solid var(--border); background:var(--cream); }
+.g-done   { color:var(--white); border:1px solid var(--bord); background:var(--bord); }
+/* ══ CONTACT ══ */
+.contact-sec {
+  padding:6rem 5vw; background:var(--cream-2);
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:1.2fr 1fr; gap:6rem; align-items:center;
+}
+.c-links { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); }
+.c-row {
+  background:var(--white); padding:1.4rem 1.6rem;
+  display:flex; justify-content:space-between; align-items:center;
+  text-decoration:none; transition:background .2s;
+}
+.c-row:hover { background:var(--bord); }
+.c-lbl { font-size:.53rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:.2rem; font-weight:800;}
+.c-val { font-size:.88rem; font-weight:300; color:var(--bord); }
+.c-arr { color:var(--bord); font-size:.9rem; transition:transform .2s; }
+.c-row:hover .c-lbl { color:var(--ink); font-weight:400; }
+.c-row:hover .c-val { color:var(--white); }
+.c-row:hover .c-arr { color:var(--white); transform:translate(3px,-3px); }
+@media (max-width:1024px) {
+  .page-hero { grid-template-columns:1fr; padding:4rem 5vw; gap:3rem; }
+  .values-band { grid-template-columns:1fr; }
+  .val-cell { border-right:none; border-bottom:1px solid rgba(255,255,255,.14); }
+  .int-grid { grid-template-columns:1fr; }
+  .tl-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:4rem; }
+  .contact-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:3rem; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<header class="page-hero" aria-labelledby="act-h1">
+  <div class="ph-l">
+    <h1 class="dsp rv" id="act-h1" style="margin-top:.8rem; font-size:clamp(3rem,7vw,6rem)">
+      Passions<br><em>&amp; Intérêts</em>
+    </h1>
+  </div>
+  <div class="ph-r rv">
+    <blockquote class="bq">
+      <p class="bq-text">Vivre, c'est apprendre.</p>
+      <cite class="bq-attr">Voltaire</cite>
+    </blockquote>
+  </div>
+</header>
+<section style="padding:7rem 5vw 4rem; background:var(--cream); border-top:1px solid var(--border);">
+  <h2 class="h2 rv" style="margin-top:.7rem">Mes <em>valeurs</em></h2>
+  <p class="prose rv" style="margin-top:1rem; max-width:480px">
+    Trois piliers qui guident mes choix, mon travail et ma façon d'apprendre au quotidien :
+  </p>
+</section>
+<div class="values-band" role="list" aria-label="Valeurs personnelles">
+  <div class="val-cell rv" role="listitem"><span class="val-word">Ambition</span><span class="val-def">Moteur de progression</span></div>
+  <div class="val-cell rv" role="listitem"><span class="val-word">Famille</span><span class="val-def">Ancrage et repère</span></div>
+  <div class="val-cell rv" role="listitem"><span class="val-word">Curiosité</span><span class="val-def">Boussole intellectuelle</span></div>
+</div>
+
+<section class="interests-sec" aria-labelledby="int-h2">
+  <h2 class="h2 rv" id="int-h2" style="margin-top:.7rem">Ce qui me <em>passionne</em></h2>
+   <p class="prose rv" style="margin-top:1.3rem; max-width:400px">
+      Data, Finance, sport et jeux vidéo — quatre domaines où la logique, la stratégie et la discipline se rejoignent :
+    </p>
+  <div class="int-grid" role="list">
+
+     <article class="int-card rv" role="listitem">
+      <span class="int-num" aria-hidden="true">01</span>
+      <p class="int-lbl">Domaine 01</p>
+      <h3 class="int-title">Analyse de Données</h3>
+      <p class="int-tagline">Trouver l'information dans le bruit</p>
+      <p class="int-desc">Power BI, SQL, Python — transformer des données brutes en insights actionnables. Une passion directement au cœur de mon parcours BUT Informatique Parcours C.</p>
+      <ul class="int-skills">
+        <li><span class="chip">Power BI</span></li>
+        <li><span class="chip">SQL</span></li>
+        <li><span class="chip">Python</span></li>
+        <li><span class="chip">DAX</span></li>
+        <li><span class="chip">Visualisation</span></li>
+      </ul>
+    </article>
+
+    <article class="int-card rv" role="listitem">
+      <span class="int-num" aria-hidden="true">02</span>
+      <p class="int-lbl">Domaine 02</p>
+      <h3 class="int-title">Finance & Marchés</h3>
+      <p class="int-tagline">Les chiffres comme langage universel</p>
+      <p class="int-desc">Passionné par l'analyse des marchés financiers, la lecture des indicateurs économiques et la logique derrière les KPIs. La finance est le terrain où la data prend tout son sens.</p>
+      <ul class="int-skills">
+        <li><span class="chip">Marchés financiers</span></li>
+        <li><span class="chip">KPI</span></li>
+        <li><span class="chip">Analyse quantitative</span></li>
+        <li><span class="chip">Économie</span></li>
+      </ul>
+    </article>
+
+    <article class="int-card rv" role="listitem">
+      <span class="int-num" aria-hidden="true">03</span>
+      <p class="int-lbl">Domaine 03</p>
+      <h3 class="int-title">Sport</h3>
+      <p class="int-tagline">La discipline comme méthode</p>
+      <p class="int-desc">Le sport comme école de rigueur, de persévérance et de gestion de l'effort. Une philosophie qui se transpose naturellement dans le travail quotidien et les projets techniques.</p>
+      <ul class="int-skills">
+        <li><span class="chip">Discipline</span></li>
+        <li><span class="chip">Compétition</span></li>
+        <li><span class="chip">Dépassement de soi</span></li>
+        <li><span class="chip">Rigueur</span></li>
+      </ul>
+    </article>
+
+    <article class="int-card rv" role="listitem">
+      <span class="int-num" aria-hidden="true">04</span>
+      <p class="int-lbl">Domaine 04</p>
+      <h3 class="int-title">Jeux Vidéo</h3>
+      <p class="int-tagline">Stratégie et logique en action</p>
+      <p class="int-desc">Les jeux vidéo comme espace d'entraînement à la pensée stratégique et à la résolution de problèmes complexes. Source d'inspiration directe pour la conception logicielle et l'algorithmique.</p>
+      <ul class="int-skills">
+        <li><span class="chip">Stratégie</span></li>
+        <li><span class="chip">Logique</span></li>
+        <li><span class="chip">Problem solving</span></li>
+        <li><span class="chip">Game design</span></li>
+      </ul>
+    </article>
+
+  </div>
+</section>
+
+<section class="tl-sec" aria-labelledby="tl-h2">
+  <div>
+    <h2 class="h2 rv" id="tl-h2" style="margin-top:.7rem">Mon <em>parcours</em></h2>
+    <ol class="tl-list rv">
+      <li class="tl-item">
+        <span class="tl-dot"></span>
+        <p class="tl-period">2023 — Présent</p>
+        <h3 class="tl-title">BUT Informatique — Parcours Administration, gestion et exploitation des données</h3>
+        <p class="tl-desc">IUT Reims Champagne-Ardenne. Formation en 3 ans alliant développement, data et systèmes.</p>
+      </li>
+      <li class="tl-item">
+        <span class="tl-dot"></span>
+        <p class="tl-period">Projets académiques</p>
+        <h3 class="tl-title">Mise en pratique concrète</h3>
+        <p class="tl-desc">5 projets publiés sur GitHub : Solitaire Python, bibliothèque jeux PHP, restaurant Symfony, JO Paris 2024 SQL, labyrinthe Dijkstra.</p>
+      </li>
+      <li class="tl-item">
+        <span class="tl-dot"></span>
+        <p class="tl-period">Spécialisation</p>
+        <h3 class="tl-title">Data & Développement</h3>
+        <p class="tl-desc">SQL/PL-SQL, Power BI, Python Pandas/Matplotlib, Symfony et Doctrine ORM. </p>
+      </li>
+      <li class="tl-item">
+        <span class="tl-dot"></span>
+        <p class="tl-period">Prochaine étape</p>
+        <h3 class="tl-title">Alternance</h3>
+        <p class="tl-desc">En recherche active dans un environnement orienté data et IA</p>
+      </li>
+    </ol>
+  </div>
+  <div>
+    <h2 class="h2 rv" style="margin-top:.7rem;">Mes <em>objectifs</em></h2>
+    <ol class="goals-list rv">
+      <li class="goal-row"><span class="goal-text">Stage ou alternance data / développement</span><span class="g-badge g-active">En cours</span></li>
+      <li class="goal-row"><span class="goal-text">Approfondir SQL et Power BI</span><span class="g-badge g-active">En cours</span></li>
+      <li class="goal-row"><span class="goal-text">Certification Power BI Microsoft</span><span class="g-badge g-next">À venir</span></li>
+      <li class="goal-row"><span class="goal-text">5 projets GitHub publiés</span><span class="g-badge g-done">Atteint ✓</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact-sec" aria-labelledby="c-h2">
+  <div>
+    <h2 class="h2 rv" id="c-h2" style="margin-top:.7rem">Construisons <em>ensemble</em></h2>
+    <p class="prose rv" style="margin-top:1.2rem; margin-bottom:2rem; max-width:340px">
+      Disponible pour des stages, alternances ou collaborations.
+    </p>
+    <div class="rv" style="display:flex; gap:.8rem; flex-wrap:wrap">
+      <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="btn btn-bord">LinkedIn</a>
+      <a href="/projets" class="btn btn-ghost">Voir mes projets →</a>
+    </div>
+  </div>
+  <nav class="c-links rv" aria-label="Contacts">
+    <a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer" class="c-row">
+      <div><span class="c-lbl">GitHub</span><span class="c-val">github.com/mart55555</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+    <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="c-row">
+      <div><span class="c-lbl">LinkedIn</span><span class="c-val">Adrien Martin</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+    <a href="mailto:21adrienmartin@gmail.com" class="c-row">
+      <div><span class="c-lbl">Email</span><span class="c-val">21adrienmartin@gmail.com</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</section>
+
+{% endblock %}

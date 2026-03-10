@@ -1,0 +1,7 @@
+```
+
+Contenu du fichier :
+```
+User-agent: *
+Allow: /
+Sitemap: https://tonsite.vercel.app/sitemap.xml

@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+{% block title %}Adrien Martin — Data Analyst{% endblock %}
+
+{% block extra_head %}
+<style>
+
+.hero {
+  background: var(--white);
+  min-height: calc(100vh - 60px);
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+/* Trait bordeaux vertical décoratif */
+.hero::before {
+  content:''; position:absolute; left:5vw; top:0; bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom, transparent 5%, var(--bord-light) 30%, var(--bord-light) 70%, transparent 95%);
+}
+/* Tache de couleur subtile */
+.hero-tache {
+  position:absolute; top:-80px; right:-80px;
+  width:420px; height:420px; border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(158,27,50,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.hero-body {
+  padding: 5rem 5vw 3rem 9vw;
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; gap:3rem;
+}
+.hero-eyebrow {
+  display:flex; align-items:center; gap:1.2rem;
+}
+.hero-eyebrow-dot {
+  width:6px; height:6px; background:var(--gold); flex-shrink:0;
+  transform: rotate(45deg); border-radius:1px;
+}
+.hero-eyebrow-text {
+  font-size:.6rem; font-weight:400; letter-spacing:.32em; text-transform:uppercase; color:var(--bord);
+}
+
+.hero-name-wrap {
+  position: relative;
+  padding: 2.5rem 0 2rem;
+}
+/* Ornement or au-dessus */
+.hero-name-wrap::before {
+  content: '';
+  display: block;
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 1.8rem;
+}
+
+
+.hero-name {
+  font-family:'Cormorant',serif; font-weight:300;
+  font-size:clamp(2rem,6vw,6rem);
+  line-height:.86; letter-spacing:.025em;
+}
+.hn-first {
+  display:block;
+  /* Dégradé encre → bordeaux très subtil */
+  background: linear-gradient(135deg, var(--ink) 0%, #3A1A20 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hn-last {
+  display:block; font-style:italic; font-weight:300;
+  padding-left:.08em;
+  color: var(--bord);
+  text-shadow: 2px 2px 0px rgba(158,27,50,.15), 0 0 40px rgba(158,27,50,.08);
+}
+
+/* Rôle sous le nom */
+.hero-role {
+  display: flex; align-items: center; gap: 1rem;
+  margin-top: 1.4rem;
+}
+.hero-role-text {
+  font-family:'Inter',sans-serif; font-size:.92rem; font-weight:300;
+  letter-spacing:.32em; text-transform:uppercase; color:var(--text-mid);
+}
+.hero-role-sep {
+  flex:1; height:1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* Sous-section — deux colonnes */
+
+.hero-desc {
+  font-size:.94rem; font-weight:300; line-height:1.92;
+  color:var(--text-mid); padding-left:1.4rem;
+  border-left:2px solid var(--bord);
+}
+.hero-meta { display:flex; flex-direction:column; gap:1.2rem; align-items:flex-end; }
+.hero-status {
+  padding: 3rem 2rem;
+  border:1px solid var(--border-g); background:var(--cream);
+  position:relative; width:100%; max-width:500px;
+  transition: box-shadow .25s;
+}
+.hero-status::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--bord), var(--navy));
+}
+.hs-lbl { font-size:.62rem; letter-spacing:.26em; text-transform:uppercase; color:var(--bord); margin-bottom:.4rem; }
+.hs-val { font-family:'Cormorant',serif; font-size:1rem; font-weight:400; color:var(--ink); line-height:1.4; }
+.hero-ctas { display:flex; gap:.8rem; flex-wrap:wrap; }
+
+/* Stats bar */
+.hero-stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--border);
+  background:var(--cream-2);
+  position:relative; z-index:2;
+}
+.stat {
+  padding:1.6rem 2rem; border-right:1px solid var(--border);
+  transition:background .2s;
+}
+.stat:last-child { border-right:none; }
+.stat-num {
+  font-family:'Cormorant',serif; font-size:2.6rem; font-weight:300;
+  background: linear-gradient(135deg, var(--bord) 0%, var(--gold) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  line-height:1; display:block;
+}
+.stat-lbl {
+  font-size:.52rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--text-low); margin-top:.2rem;
+}
+
+.comp-sec {
+  padding:7rem 5vw; background:var(--cream);
+  border-top:1px solid var(--border);
+}
+.comp-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:4rem; flex-wrap:wrap; gap:1rem; }
+.comp-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.comp-card {
+  background:var(--white); padding:2.5rem 2rem;
+  position:relative; overflow:hidden; transition:background .22s, box-shadow .22s;
+}
+.comp-num {
+  font-family:'Cormorant',serif; font-size:3.8rem; font-weight:300;
+  color: rgba(158,27,50,.18); line-height:1; margin-bottom:.8rem;
+}
+.comp-title {
+  font-family:'Cormorant',serif; font-size:1.1rem; font-weight:500;
+  color:var(--ink); margin-bottom:.6rem;
+}
+.comp-desc { font-size:.84rem; font-weight:300; color:var(--text-mid); line-height:1.85; margin-bottom:1.2rem; }
+.comp-chips {display:flex; flex-wrap:wrap; gap:.3rem; }
+.comp-chips .chip { color:var(--bord); border-color:var(--bord-light); pointer-events:none; }
+
+.about-sec {
+  display:grid; grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--border);
+}
+.about-l {
+  padding:7rem 5vw; background:var(--white);
+  border-right:1px solid var(--border);
+}
+.about-r {
+  padding:7rem 5vw; background:var(--cream-2);
+}
+.domain-grid {
+  margin-top:2rem; display:grid; grid-template-columns:1fr 1fr;
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.dom {
+  background:var(--white); padding:1.5rem;
+  position:relative; transition:background .22s;
+}
+.dom::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--bord); transform:scaleX(0); transform-origin:left; transition:transform .28s;
+}
+.dom-name { font-family:'Cormorant',serif; font-size:1.05rem; font-weight:400; color:var(--ink); margin-bottom:.2rem; }
+.dom-sub { font-size:.58rem; font-weight:400; letter-spacing:.14em; text-transform:uppercase; color:var(--text-low); }
+
+.proj-sec {
+  padding:7rem 5vw; background:var(--cream);
+  border-top:1px solid var(--border);
+}
+.sec-head {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  padding-bottom:2rem; margin-bottom:0; border-bottom:1px solid var(--border);
+  flex-wrap:wrap; gap:1rem;
+}
+.proj-table { width:100%; border-collapse:collapse; }
+.proj-table tbody tr { border-bottom:1px solid var(--border); transition:background .18s; }
+.proj-table td { padding:1.8rem 1rem; vertical-align:middle; }
+.proj-table td:first-child { padding-left:0; }
+.proj-table td:last-child  { padding-right:0; }
+.pt-n { font-size:.54rem; font-weight:400; letter-spacing:.18em; color:var(--bord-light); width:44px; }
+.pt-name { font-family:'Cormorant',serif; font-size:1.2rem; font-style:italic; font-weight:400; color:var(--ink); }
+.pt-cat { font-size:.54rem; font-weight:400; letter-spacing:.12em; text-transform:uppercase; width:90px; }
+.pt-cat-d { color:var(--bord); }
+.pt-cat-v { color:var(--navy); }
+.pt-chips { list-style:none; display:flex; flex-wrap:wrap; gap:.3rem; }
+.pt-chips .chip { color:var(--bord); border-color:var(--bord-light); pointer-events:none; }
+.pt-gh {
+  font-size:.56rem; font-weight:400; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--bord); text-decoration:none;
+  display:inline-flex; align-items:center; gap:.3rem;
+  border:1px solid var(--bord-light); padding:.3rem .85rem; border-radius:1px;
+  transition:.2s; white-space:nowrap;
+}
+.pt-gh::after { content:'↗'; }
+.pt-gh:hover { background:var(--bord); color:var(--white); border-color:var(--bord); gap:.6rem; }
+
+
+.cta-sec {
+  display:grid; grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--border);
+}
+.cta-left {
+  padding:7rem 5vw; background:var(--white);
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.cta-right {
+  padding:7rem 5vw; background:var(--bord);
+  position:relative; display:flex; flex-direction:column; justify-content:center;
+}
+.cta-links { display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); }
+.cta-row {
+  background:rgba(255,255,255,.04); padding:1.4rem 1.6rem;
+  display:flex; justify-content:space-between; align-items:center;
+  text-decoration:none; transition:background .2s;
+}
+.cta-row:hover { background:rgba(255,255,255,.12); }
+.cta-lbl { font-size:.52rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.5); display:block; margin-bottom:.2rem; }
+.cta-val { font-size:.88rem; font-weight:300; color:var(--white); }
+.cta-arr { color:rgba(255,255,255,.6); transition:transform .2s; }
+.cta-row:hover .cta-arr { transform:translate(3px,-3px); }
+
+.hero-sub {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:4rem; align-items:center;
+  padding-top:1rem;
+}
+.hero-meta { display:flex; flex-direction:column; gap:1.2rem; align-items:flex-end; }
+.hero-status {
+  padding:1.4rem 1.6rem;
+  border:1px solid var(--border); background:var(--cream);
+  position:relative; width:100%;
+}
+
+@media (max-width:1100px) {
+  .hero-sub { grid-template-columns:1fr; gap:2rem; }
+  .hero-meta { align-items:flex-start; }
+  .hero-status { max-width:100%; }
+  .hero-stats { grid-template-columns:1fr 1fr; }
+  .values-band { grid-template-columns:1fr; }
+  .val-cell { border-right:none; border-bottom:1px solid rgba(255,255,255,.14); }
+  .comp-grid { grid-template-columns:repeat(2,1fr); }
+  .about-sec { grid-template-columns:1fr; }
+  .about-l { border-right:none; border-bottom:1px solid var(--border); padding:5rem 5vw; }
+  .about-r { padding:5rem 5vw; }
+  .cta-sec { grid-template-columns:1fr; }
+  .cta-left { border-right:none; border-bottom:1px solid var(--border); }
+}
+/* ══ CONTACT ══ */
+.contact-sec {
+  padding:6rem 5vw; background:var(--cream-2);
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:1.2fr 1fr; gap:6rem; align-items:center;
+}
+.c-links { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); }
+.c-row {
+  background:var(--white); padding:1.4rem 1.6rem;
+  display:flex; justify-content:space-between; align-items:center;
+  text-decoration:none; transition:background .2s;
+}
+.c-row:hover { background:var(--bord); }
+.c-lbl { font-size:.53rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:.2rem; font-weight:800;}
+.c-val { font-size:.88rem; font-weight:300; color:var(--bord); }
+.c-arr { color:var(--bord); font-size:.9rem; transition:transform .2s; }
+.c-row:hover .c-lbl { color:var(--ink); font-weight:400; }
+.c-row:hover .c-val { color:var(--white); }
+.c-row:hover .c-arr { color:var(--white); transform:translate(3px,-3px); }
+
+@media (max-width:1024px) {
+  .page-hero { grid-template-columns:1fr; padding:4rem 5vw; gap:3rem; }
+  .values-band { grid-template-columns:1fr; }
+  .val-cell { border-right:none; border-bottom:1px solid rgba(255,255,255,.14); }
+  .int-grid { grid-template-columns:1fr; }
+  .tl-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:4rem; }
+  .contact-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:3rem; }
+}
+
+@media (max-width:640px) {
+  .hero-body { padding:3.5rem 5vw; }
+  .comp-grid { grid-template-columns:1fr; }
+  .pt-cat,.pt-chips { display:none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ══ HERO ══ -->
+<section aria-labelledby="hero-h1">
+  <div class="hero">
+    <div class="hero-tache" aria-hidden="true"></div>
+    <!-- Image de fond -->
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;pointer-events:none;
+      background-image:url('/static/hero_bg.png');
+      background-size:cover; background-position:center right;">
+    </div>
+
+    <!-- Fondu -->
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:1;
+      background:linear-gradient(90deg, var(--white) 30%, rgba(253,252,249,.5) 60%, transparent 85%);
+      pointer-events:none;">
+    </div>
+    <div class="hero-body">
+      <div class="hero-eyebrow rv">
+      </div>
+
+      <div class="hero-name-wrap">
+        <h1 class="hero-name" id="hero-h1">
+          <span class="hn-first rv" style="transition-delay:.05s">Adrien</span>
+          <span class="hn-last rv" style="transition-delay:.12s">MARTIN</span>
+        </h1>
+        <div class="hero-role rv" style="transition-delay:.2s">
+          <span class="hero-role-text">Data Analyst</span>
+        </div>
+      </div>
+
+      <div class="hero-sub">
+        <p class="hero-desc rv" style="transition-delay:.25s">
+          IUT Reims Champagne-Ardenne<br>
+          Parcours Administration, gestion et exploitation des données<br>
+          Python · SQL · Power BI · PHP/Symfony
+        </p>
+        <div class="hero-meta rv" style="transition-delay:.35s">
+          <div class="hero-status">
+            <p class="hs-lbl">Statut</p>
+            <p class="hs-val">BUT Informatique 2eme année  <br>Parcours Administration, gestion et exploitation des données<br>Disponible pour une alternance à compter de septembre 2026</p>
+          </div>
+          <div class="hero-ctas">
+            <a href="/projets" class="btn btn-bord">Mes projets</a>
+            <a href="/Profil" class="btn btn-ghost">Profil</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats rv" role="list">
+      <div class="stat" role="listitem"><span class="stat-num">5</span><span class="stat-lbl">Projets GitHub</span></div>
+      <div class="stat" role="listitem"><span class="stat-num">6</span><span class="stat-lbl">Compétences BUT</span></div>
+      <div class="stat" role="listitem"><span class="stat-num">2027</span><span class="stat-lbl">Fin de Formation</span></div>
+    </div>
+  </div>
+</section>
+<!-- ══ COMPÉTENCES ══ -->
+<section class="comp-sec" aria-labelledby="comp-h2">
+  <div class="comp-header">
+    <div>
+      <p class="lbl rv">Référentiel BUT Informatique</p>
+      <h2 class="h2 rv" id="comp-h2" style="margin-top:.7rem">6 <em>compétences</em></h2>
+    </div>
+    <a href="/projets" class="btn btn-outline rv">Voir les projets →</a>
+  </div>
+  <div class="comp-grid rv" role="list">
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">01</div>
+      <h3 class="comp-title">Réaliser un développement</h3>
+      <p class="comp-desc">Solitaire Python avec interface visuelle, bibliothèque jeux PHP, application restaurant PHP/Symfony avec AJAX, Bootstrap et authentification sécurisée.</p>
+      <ul class="comp-chips"><li><span class="chip">Python</span></li><li><span class="chip">PHP</span></li><li><span class="chip">Symfony</span></li><li><span class="chip">AJAX</span></li><li><span class="chip">Bootstrap</span></li></ul>
+    </article>
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">02</div>
+      <h3 class="comp-title">Optimiser des applications</h3>
+      <p class="comp-desc">Dijkstra vs Glouton sur labyrinthe Python. Monte-Carlo pour probabilités. Optimisation SQL via Doctrine ORM. Hachage des mots de passe.</p>
+      <ul class="comp-chips"><li><span class="chip">Dijkstra</span></li><li><span class="chip">Doctrine</span></li><li><span class="chip">XSS</span></li></ul>
+    </article>
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">03</div>
+      <h3 class="comp-title">Administrer des systèmes</h3>
+      <p class="comp-desc">Linux en machine virtuelle, simulation réseau Cisco Packet Tracer, déploiement de services virtualisés, configuration poste en réseau local.</p>
+      <ul class="comp-chips"><li><span class="chip">Linux</span></li><li><span class="chip">Cisco</span></li><li><span class="chip">Packet Tracer</span></li><li><span class="chip">VM</span></li></ul>
+    </article>
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">04</div>
+      <h3 class="comp-title">Gérer des données</h3>
+      <p class="comp-desc">MCD/MLD sur JO Paris 2024. Power BI et Matplotlib/Seaborn pour la visualisation. Optimisation schémas restaurant, gestion des droits Doctrine.</p>
+      <ul class="comp-chips"><li><span class="chip">SQL</span></li><li><span class="chip">PL/SQL</span></li><li><span class="chip">Power BI</span></li><li><span class="chip">Matplotlib</span></li></ul>
+    </article>
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">05</div>
+      <h3 class="comp-title">Conduire un projet</h3>
+      <p class="comp-desc">Méthode Scrum par sprints, rédaction cahiers des charges fonctionnels et non fonctionnels, MS Planner, identification des rôles et phases du cycle de dev.</p>
+      <ul class="comp-chips"><li><span class="chip">Scrum</span></li><li><span class="chip">Agile</span></li><li><span class="chip">MS Planner</span></li><li><span class="chip">UML</span></li></ul>
+    </article>
+
+    <article class="comp-card" role="listitem">
+      <div class="comp-num">06</div>
+      <h3 class="comp-title">Collaborer en équipe</h3>
+      <p class="comp-desc">SAÉ en équipe, identification des rôles (dev, testeur, chef de projet), communication et coordination, sensibilisation à l'écosystème numérique.</p>
+      <ul class="comp-chips"><li><span class="chip">SAÉ</span></li><li><span class="chip">Git</span></li><li><span class="chip">Communication</span></li></ul>
+    </article>
+
+  </div>
+</section>
+
+<div class="divider-rb"></div>
+
+<!-- ══ ABOUT ══ -->
+<section class="about-sec" aria-labelledby="about-h2">
+  <div class="about-l">
+    <p class="lbl rv">À propos</p>
+    <h2 class="h2 rv" id="about-h2" style="margin-top:.9rem">Analyser<br><em>pour éclairer</em></h2>
+    <p class="prose rv" style="margin-top:1.4rem; margin-bottom:2.5rem">
+      Étudiant en BUT Informatique à l'IUT Reims Champagne-Ardenne, spécialisé en administration et exploitation des données. Curieux, rigoureux, passionné par la data.
+    </p>
+    <a href="/Profil" class="btn btn-outline rv">En savoir plus →</a>
+  </div>
+  <div class="about-r">
+    <p class="lbl lbl--bord rv" style="margin-bottom:1rem">Domaines</p>
+    <div class="domain-grid rv" role="list">
+      <article class="dom" role="listitem"><p class="dom-name">Data</p><p class="dom-sub">SQL · Power BI · Python</p></article>
+      <article class="dom" role="listitem"><p class="dom-name">Développement</p><p class="dom-sub">PHP · Symfony · Flask</p></article>
+      <article class="dom" role="listitem"><p class="dom-name">Systèmes</p><p class="dom-sub">Linux · Réseaux · Cisco</p></article>
+      <article class="dom" role="listitem"><p class="dom-name">Projet</p><p class="dom-sub">Scrum · Agile · Git</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJETS ══ -->
+<section class="proj-sec" aria-labelledby="proj-h2">
+  <div class="sec-head rv">
+    <div>
+      <p class="lbl">Réalisations</p>
+      <h2 class="h2" id="proj-h2" style="margin-top:.6rem">Projets <em>récents</em></h2>
+    </div>
+    <a href="/projets" class="btn btn-ghost">Tous les projets →</a>
+  </div>
+  <table class="proj-table" aria-label="Projets récents">
+    <thead><tr>
+      <th scope="col" class="sr-only">N°</th><th scope="col" class="sr-only">Nom</th>
+      <th scope="col" class="sr-only">Catégorie</th><th scope="col" class="sr-only">Tech</th>
+      <th scope="col" class="sr-only">Lien</th>
+    </tr></thead>
+    <tbody>
+    {% for p in projects%}
+      <tr class="rv">
+        <td class="pt-n" aria-hidden="true">0{{ loop.index }}</td>
+        <td class="pt-name">{{ p.name }}</td>
+        <td class="pt-cat {% if p.category=='Data' %}pt-cat-d{% else %}pt-cat-v{% endif %}">{{ p.category }}</td>
+        <td><ul class="pt-chips">{% for t in p.tech %}<li><span class="chip">{{ t }}</span></li>{% endfor %}</ul></td>
+        <td style="text-align:right"><a href="{{ p.github }}" target="_blank" rel="noopener noreferrer" class="pt-gh">GitHub</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+<section class="contact-sec" aria-labelledby="c-h2">
+  <div>
+    <h2 class="h2 rv" id="c-h2" style="margin-top:.7rem">Construisons <em>ensemble</em></h2>
+    <p class="prose rv" style="margin-top:1.2rem; margin-bottom:2rem; max-width:340px">
+      Disponible pour des stages, alternances ou collaborations.
+    </p>
+    <div class="rv" style="display:flex; gap:.8rem; flex-wrap:wrap">
+      <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="btn btn-bord">LinkedIn</a>
+      <a href="/projets" class="btn btn-ghost">Voir mes projets →</a>
+    </div>
+  </div>
+  <nav class="c-links rv" aria-label="Contacts">
+    <a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer" class="c-row">
+      <div><span class="c-lbl">GitHub</span><span class="c-val">github.com/mart55555</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+    <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="c-row">
+      <div><span class="c-lbl">LinkedIn</span><span class="c-val">Adrien Martin</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+    <a href="mailto:21adrienmartin@gmail.com" class="c-row">
+      <div><span class="c-lbl">Email</span><span class="c-val">21adrienmartin@gmail.com</span></div>
+      <span class="c-arr" aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</section>
+
+{% endblock %}

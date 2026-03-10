@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}Projets — Adrien Martin{% endblock %}
+{% block meta_desc %}Projets de développement et data d'Adrien Martin : Solitaire Python, JO Paris 2024, restaurant Symfony, labyrinthe Dijkstra.{% endblock %}
+
+{% block extra_head %}
+<style>
+.page-hero {
+  background:var(--white);
+  padding:6rem 5vw 5rem 9vw;
+  border-bottom:1px solid var(--border);
+  position:relative; overflow:hidden;
+}
+.page-hero::before {
+  content:''; position:absolute; left:5vw; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent 10%, var(--bord-light) 35%, var(--bord-light) 65%, transparent 90%);
+}
+.page-hero-tache {
+  position:absolute; right:-60px; top:-60px;
+  width:320px; height:320px; border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(0,51,102,.05) 0%, transparent 70%);
+  pointer-events:none;
+}
+.ph-inner { max-width:600px; position:relative; z-index:1; }
+
+/* ══ FILTRES ══ */
+.filter-bar {
+  padding:1.2rem 5vw; background:var(--cream-2);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:.55rem; flex-wrap:wrap;
+}
+.f-pre { font-size:.56rem; font-weight:400; letter-spacing:.24em; text-transform:uppercase; color:var(--text-low); margin-right:.3rem; }
+.fbtn {
+  font-family:'Inter',sans-serif; font-size:.58rem; font-weight:400;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text-low); background:transparent;
+  border:1px solid var(--border); padding:.3rem .85rem; border-radius:1px;
+  cursor:pointer; transition:all .2s;
+}
+.fbtn:hover { color:var(--bord); border-color:var(--bord-light); }
+.fbtn.on { color:var(--white); background:var(--bord); border-color:var(--bord); }
+
+.proj-body { padding:0 5vw 6rem; background:var(--cream); }
+.full-table { width:100%; border-collapse:collapse; }
+.full-table tbody tr { border-bottom:1px solid var(--border); transition:background .18s; }
+.full-table td { padding:2.2rem 1rem; vertical-align:top; font-size:.88rem; }
+.full-table td:first-child { padding-left:0; }
+.full-table td:last-child  { padding-right:0; }
+
+.ft-n { font-size:.52rem; letter-spacing:.18em; color:var(--bord-light); width:44px; padding-top:2.4rem !important; }
+.ft-main { width:46%; }
+.ft-name { font-family:'Cormorant',serif; font-size:1.4rem; font-style:italic; font-weight:400; color:var(--ink); margin-bottom:.6rem; letter-spacing:.01em; }
+.ft-desc { font-size:.84rem; font-weight:300; color:var(--text-mid); line-height:1.82; max-width:460px; }
+.ft-year { font-size:.52rem; letter-spacing:.14em; color:var(--text-low); width:65px; padding-top:2.4rem !important; }
+.ft-cat  { display:none; }
+.ft-badge { display:none; }
+.ft-chips { list-style:none; display:flex; flex-wrap:wrap; gap:.3rem; padding-top:.4rem; }
+.ft-gh {
+  font-size:.58rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--bord); text-decoration:none;
+  display:inline-flex; align-items:center; gap:.3rem;
+  border:1px solid var(--bord-light); padding:.3rem .85rem; border-radius:1px;
+  transition:.2s; white-space:nowrap;
+}
+.ft-gh::after { content:'↗'; }
+.ft-gh:hover { background:var(--bord); color:var(--white); border-color:var(--bord); gap:.6rem; }
+
+.stack-sec {
+  padding:6rem 5vw; background:var(--white);
+  border-top:1px solid var(--border);
+}
+.sk-grid {
+  margin-top:2.5rem; display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.sk-cell {
+  background:var(--white); padding:1.8rem 1.6rem; transition:background .2s;
+  position:relative; overflow:hidden;
+}
+
+
+.sk-name { font-family:'Cormorant',serif; font-size:1.15rem; font-weight:400; color:var(--bord); margin-bottom:.3rem; }
+.sk-lvl { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--bord); font-weight:400; }
+
+@media (max-width:1024px) {
+  .page-hero { padding:4rem 5vw; }
+  .sk-grid { grid-template-columns:repeat(2,1fr); }
+  .ft-year,.ft-cat { display:none; }
+}
+@media (max-width:640px) {
+  .full-table td { padding:1.4rem .5rem; }
+  .ft-chips { display:none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<header class="page-hero" aria-labelledby="proj-h1">
+  <div class="page-hero-tache" aria-hidden="true"></div>
+  <div class="ph-inner">
+    <h1 class="dsp rv" id="proj-h1" style="margin-top:.8rem; font-size:clamp(3rem,7vw,6rem)">
+      Mes <em>réalisations</em>
+    </h1>
+    <p class="prose rv" style="margin-top:1.4rem; max-width:440px; font-size:.95rem; color:var(--text-mid);">
+      Du Solitaire Python au dashboard Power BI — des projets concrets à chaque étape de ma formation.
+    </p>
+  </div>
+</header>
+
+<div class="filter-bar" role="group" aria-label="Filtrer les projets">
+  <span class="f-pre">Filtrer :</span>
+  <button class="fbtn on"  onclick="doFilter('all',this)"    aria-pressed="true">Tous</button>
+  <button class="fbtn"     onclick="doFilter('data',this)"   aria-pressed="false">Data</button>
+  <button class="fbtn"     onclick="doFilter('python',this)" aria-pressed="false">Python</button>
+  <button class="fbtn"     onclick="doFilter('php',this)"    aria-pressed="false">PHP</button>
+  <button class="fbtn"     onclick="doFilter('sql',this)"    aria-pressed="false">SQL</button>
+</div>
+
+<section class="proj-body" aria-labelledby="list-h2">
+  <h2 class="h2 rv" id="list-h2" style="padding-top:3rem; padding-bottom:1.5rem">
+    {{ projects|length }} <em>projets</em>
+  </h2>
+  <table class="full-table" aria-label="Liste complète des projets">
+    <thead><tr>
+      <th scope="col" class="sr-only">N°</th>
+      <th scope="col" class="sr-only">Nom et description</th>
+      <th scope="col" class="sr-only">Année</th>
+      <th scope="col" class="sr-only">Catégorie</th>
+      <th scope="col" class="sr-only">Technologies</th>
+      <th scope="col" class="sr-only">GitHub</th>
+    </tr></thead>
+    <tbody id="ptbody">
+      {% for p in projects %}
+      <tr class="rv" data-tech="{{ p.tech|join(',')|lower }}" data-cat="{{ p.category|lower }}">
+        <td class="ft-n" aria-hidden="true">0{{ loop.index }}</td>
+        <td class="ft-main"><p class="ft-name">{{ p.name }}</p><p class="ft-desc">{{ p.description }}</p></td>
+        <td class="ft-year">{{ p.year }}</td>
+        <td class="ft-cat"><span class="ft-badge {% if p.category=='Data' %}b-data{% else %}b-dev{% endif %}">{{ p.category }}</span></td>
+        <td><ul class="ft-chips">{% for t in p.tech %}<li><span class="chip">{{ t }}</span></li>{% endfor %}</ul></td>
+        <td style="text-align:right; padding-top:2.2rem">
+          <a href="{{ p.github }}" target="_blank" rel="noopener noreferrer" class="ft-gh">GitHub</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="stack-sec" aria-labelledby="sk-h2">
+  <p class="lbl rv">Compétences techniques</p>
+  <h2 class="h2 rv" id="sk-h2" style="margin-top:.6rem">Stack <span class="navy">technique</span></h2>
+  <dl class="sk-grid rv" role="list">
+    <div class="sk-cell" role="listitem"><dt class="sk-name">Python</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">PHP / Symfony</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">SQL / PL-SQL</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">Power BI / DAX </dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">HTML / CSS / JS</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">Flask</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">MySQL / Doctrine</dt><dd class="sk-lvl"></dd></div>
+    <div class="sk-cell" role="listitem"><dt class="sk-name">Seaborn / Matplotlib</dt><dd class="sk-lvl"></dd></div>
+  </dl>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function doFilter(type, btn) {
+  document.querySelectorAll('.fbtn').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed','false'); });
+  btn.classList.add('on'); btn.setAttribute('aria-pressed','true');
+  document.querySelectorAll('#ptbody tr').forEach(row => {
+    const tech = row.dataset.tech || '', cat = row.dataset.cat || '';
+    const show = type==='all'
+      || (type==='data' && (cat.includes('data') || tech.includes('sql') || tech.includes('power bi')))
+      || tech.includes(type);
+    row.style.display = show ? '' : 'none';
+  });
+}
+</script>
+{% endblock %}
