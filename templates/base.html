@@ -119,6 +119,15 @@
     .nav-cta::after { display:none !important; }
     .nav-cta:hover { background:var(--bord) !important; color:var(--white) !important; }
 
+    .nav-cta-fill {
+    font-size:.62rem !important; letter-spacing:.2em !important;
+    color:var(--white) !important; border:1px solid var(--bord) !important;
+    padding:.32rem 1rem; border-radius:1px;
+    background:var(--bord) !important; transition:all .22s !important;
+    }
+    .nav-cta-fill::after { display:none !important; }
+    .nav-cta-fill:hover { background:var(--bord-2) !important; border-color:var(--bord-2) !important; box-shadow:0 4px 16px rgba(158,27,50,.3); transform:translateY(-1px); }
+
     .nav-toggle {
       display:none; flex-direction:column; gap:5px; width:34px; height:34px;
       background:transparent; border:1px solid var(--border-r); border-radius:1px;
@@ -267,9 +276,9 @@
   </a>
   <ul class="nav-links" role="list">
     <li><a href="/" {% if request.endpoint=='home' %}aria-current="page"{% endif %}>Accueil</a></li>
-    <li><a href="/projets" {% if request.endpoint=='projets' %}aria-current="page"{% endif %}>Projets</a></li>
-    <li><a href="/Profil" {% if request.endpoint=='Profil' %}aria-current="page"{% endif %}>Profil</a></li>
-    <li><a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer" class="nav-cta">GitHub</a></li>
+    <li><a href="/projets" {% if request.endpoint=='projets_view' %}aria-current="page"{% endif %}>Projets</a></li>
+    <li><a href="/Profil" {% if request.endpoint=='activites_view' %}aria-current="page"{% endif %}>Profil</a></li>
+    <li><a href="/contact" {% if request.endpoint=='contact_view' %}aria-current="page"{% endif %} class="nav-cta-fill">Contact</a></li>
   </ul>
   <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
@@ -278,9 +287,9 @@
 
 <div class="nav-drawer" id="nav-drawer">
   <a href="/" {% if request.endpoint=='home' %}aria-current="page"{% endif %}>Accueil</a>
-  <a href="/projets" {% if request.endpoint=='projets' %}aria-current="page"{% endif %}>Projets</a>
-  <a href="/Profil" {% if request.endpoint=='Profil' %}aria-current="page"{% endif %}>Profil</a>
-  <a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+  <a href="/projets" {% if request.endpoint=='projets_view' %}aria-current="page"{% endif %}>Projets</a>
+  <a href="/Profil" {% if request.endpoint=='activites_view' %}aria-current="page"{% endif %}>Profil</a>
+  <a href="/contact" {% if request.endpoint=='contact_view' %}aria-current="page"{% endif %}>Contact</a>
 </div>
 
 <main id="content" tabindex="-1">{% block content %}{% endblock %}</main>
@@ -299,6 +308,7 @@
         <li><a href="/">Accueil</a></li>
         <li><a href="/projets">Projets</a></li>
         <li><a href="/Profil">Profil</a></li>
+         <li><a href="/contact">Contact</a></li>
         <li><a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer">GitHub</a></li>
         <li><a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       </ul>

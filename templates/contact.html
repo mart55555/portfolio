@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+{% block title %}Contact — Adrien Martin{% endblock %}
+{% block meta_desc %}Contactez Adrien Martin : email, LinkedIn, GitHub.{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ══ PETIT HERO ══ */
+.ct-hero {
+  background:var(--cream);
+  padding:5.5rem 5vw 2.5rem 9vw;
+  position:relative;
+  border-bottom:1px solid var(--border);
+}
+.ct-hero::before {
+  content:''; position:absolute; left:5vw; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent 10%, var(--bord-light) 35%, var(--bord-light) 65%, transparent 90%);
+}
+.ct-hero h1 {
+  font-family:'Cormorant',serif; font-weight:300;
+  font-size:clamp(2.2rem,5vw,3.8rem); line-height:1; letter-spacing:.02em;
+  color:var(--ink);
+}
+.ct-hero h1 em { font-style:italic; color:var(--bord); }
+
+/* ══ BODY ══ */
+.ct-body {
+  display:grid; grid-template-columns:1fr 1.2fr;
+  background:var(--white);
+}
+
+/* ── Left: Liens ── */
+.ct-left {
+  padding:4rem 4vw 4rem 5vw;
+  border-right:1px solid var(--border);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.ct-section-lbl {
+  font-size:.5rem; font-weight:400; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--bord); display:flex; align-items:center; gap:.7rem;
+  margin-bottom:.5rem;
+}
+.ct-section-lbl::before {
+  content:''; width:20px; height:1px; background:var(--bord);
+}
+.ct-section-title {
+  font-family:'Cormorant',serif; font-size:1.35rem; font-weight:300; font-style:italic;
+  color:var(--ink); margin-bottom:1.8rem;
+}
+
+.ct-links { list-style:none; }
+.ct-link {
+  display:block; text-decoration:none;
+  padding:1.2rem 0;
+  border-bottom:1px solid var(--border);
+  transition:padding-left .25s, background .2s;
+  margin:0 -.8rem; padding-left:.8rem; padding-right:.8rem;
+}
+.ct-link:first-child { border-top:1px solid var(--border); }
+.ct-link:hover { padding-left:1.4rem; background:var(--bord-glow); }
+
+.ct-link-inner { display:flex; align-items:center; gap:.9rem; }
+.ct-link-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--bord-pale); flex-shrink:0; transition:all .25s;
+}
+.ct-link:hover .ct-link-dot {
+  background:var(--bord); box-shadow:0 0 6px rgba(158,27,50,.3); transform:scale(1.2);
+}
+.ct-link-info { flex:1; }
+.ct-link-type {
+  font-size:.44rem; font-weight:500; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--bord); display:block; margin-bottom:.05rem;
+}
+.ct-link-val { font-size:.88rem; font-weight:300; color:var(--ink); }
+.ct-link-go {
+  font-size:.7rem; color:var(--bord-light); transition:all .25s; flex-shrink:0;
+}
+.ct-link:hover .ct-link-go { color:var(--bord); transform:translate(3px,-3px); }
+
+/* ── Right: Formulaire ── */
+.ct-right {
+  padding:4rem 5vw 4rem 4vw;
+  background:var(--cream);
+  display:flex; flex-direction:column; justify-content:center;
+}
+
+.ct-form { display:flex; flex-direction:column; gap:1.2rem; margin-top:1.8rem; }
+.ct-field { display:flex; flex-direction:column; gap:.25rem; }
+.ct-label {
+  font-size:.46rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--bord);
+}
+.ct-input, .ct-textarea {
+  font-family:'Inter',sans-serif; font-size:.85rem; font-weight:300;
+  color:var(--ink); background:var(--white);
+  border:1px solid var(--bord-pale); padding:.75rem .9rem;
+  border-radius:0; outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  -webkit-appearance:none;
+}
+.ct-input::placeholder, .ct-textarea::placeholder { color:var(--text-low); }
+.ct-input:focus, .ct-textarea:focus {
+  border-color:var(--bord);
+  box-shadow:0 0 0 3px var(--bord-glow);
+}
+.ct-textarea { resize:vertical; min-height:100px; line-height:1.7; }
+.ct-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+
+.ct-submit {
+  font-family:'Inter',sans-serif; font-size:.56rem; font-weight:400;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--white); background:var(--bord);
+  border:1px solid var(--bord); padding:.8rem 2rem;
+  cursor:pointer; transition:all .25s; align-self:flex-start;
+  display:inline-flex; align-items:center; gap:.5rem;
+  margin-top:.3rem;
+}
+.ct-submit::after { content:'→'; transition:margin-left .2s; }
+.ct-submit:hover {
+  background:var(--bord-2); border-color:var(--bord-2);
+  box-shadow:0 4px 18px rgba(158,27,50,.25); transform:translateY(-1px);
+}
+.ct-submit:hover::after { margin-left:.2rem; }
+
+.ct-success {
+  display:none; padding:1rem 1.3rem;
+  background:var(--white); border:1px solid var(--bord-light);
+  border-left:3px solid var(--bord);
+  font-size:.84rem; font-weight:300; color:var(--ink); line-height:1.7;
+  margin-top:1.8rem;
+}
+.ct-success.show { display:block; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width:1024px) {
+  .ct-body { grid-template-columns:1fr; }
+  .ct-left { border-right:none; border-bottom:1px solid var(--border); padding:3rem 5vw; }
+  .ct-right { padding:3rem 5vw; }
+}
+@media (max-width:640px) {
+  .ct-hero { padding:4.5rem 5vw 2rem; }
+  .ct-row { grid-template-columns:1fr; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<header class="ct-hero" aria-labelledby="ct-h1">
+  <div class="ct-hero-inner">
+    <h1 class="rv" id="ct-h1">Prendre <em>contact</em></h1>
+  </div>
+</header>
+
+<section class="ct-body">
+
+  <div class="ct-left">
+    <p class="ct-section-lbl rv">Coordonnées</p>
+    <h2 class="ct-section-title rv">Me retrouver</h2>
+    <ul class="ct-links">
+      <li>
+        <a href="mailto:21adrienmartin@gmail.com" class="ct-link rv">
+          <div class="ct-link-inner">
+            <span class="ct-link-dot"></span>
+            <div class="ct-link-info">
+              <span class="ct-link-type">Email</span>
+              <p class="ct-link-val">21adrienmartin@gmail.com</p>
+            </div>
+            <span class="ct-link-go" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="ct-link rv" style="transition-delay:.06s">
+          <div class="ct-link-inner">
+            <span class="ct-link-dot"></span>
+            <div class="ct-link-info">
+              <span class="ct-link-type">LinkedIn</span>
+              <p class="ct-link-val">Adrien Martin</p>
+            </div>
+            <span class="ct-link-go" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer" class="ct-link rv" style="transition-delay:.12s">
+          <div class="ct-link-inner">
+            <span class="ct-link-dot"></span>
+            <div class="ct-link-info">
+              <span class="ct-link-type">GitHub</span>
+              <p class="ct-link-val">github.com/mart55555</p>
+            </div>
+            <span class="ct-link-go" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="ct-right">
+    <p class="ct-section-lbl rv">Message</p>
+    <h2 class="ct-section-title rv">M'écrire directement</h2>
+
+    <div id="ctSuccess" class="ct-success rv">
+      Merci pour votre message — je reviens vers vous très vite.
+    </div>
+
+    <div id="ctFormWrap" class="rv">
+      <div class="ct-form" id="ctForm">
+        <div class="ct-row">
+          <div class="ct-field">
+            <label class="ct-label" for="ct-name">Nom</label>
+            <input class="ct-input" type="text" id="ct-name" placeholder="Votre nom">
+          </div>
+          <div class="ct-field">
+            <label class="ct-label" for="ct-email">Email</label>
+            <input class="ct-input" type="email" id="ct-email" placeholder="votre@email.com">
+          </div>
+        </div>
+        <div class="ct-field">
+          <label class="ct-label" for="ct-subject">Objet</label>
+          <input class="ct-input" type="text" id="ct-subject" placeholder="Alternance, collaboration, question...">
+        </div>
+        <div class="ct-field">
+          <label class="ct-label" for="ct-msg">Message</label>
+          <textarea class="ct-textarea" id="ct-msg" placeholder="Votre message..."></textarea>
+        </div>
+        <button class="ct-submit" type="button" id="ctSend">Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('ctSend').addEventListener('click', function() {
+  var name = document.getElementById('ct-name');
+  var email = document.getElementById('ct-email');
+  var subject = document.getElementById('ct-subject');
+  var msg = document.getElementById('ct-msg');
+
+  if (!name.value.trim() || !email.value.trim() || !msg.value.trim()) {
+    [name, email, msg].forEach(function(f) {
+      if (!f.value.trim()) {
+        f.style.borderColor = 'var(--bord)';
+        setTimeout(function() { f.style.borderColor = ''; }, 1500);
+      }
+    });
+    return;
+  }
+
+  var subj = encodeURIComponent(subject.value.trim() || 'Contact portfolio — ' + name.value.trim());
+  var body = encodeURIComponent(
+    'De : ' + name.value.trim() + '\n' +
+    'Email : ' + email.value.trim() + '\n\n' +
+    msg.value.trim()
+  );
+  window.location.href = 'mailto:21adrienmartin@gmail.com?subject=' + subj + '&body=' + body;
+
+  document.getElementById('ctFormWrap').style.display = 'none';
+  document.getElementById('ctSuccess').classList.add('show');
+});
+</script>
+{% endblock %}

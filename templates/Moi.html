@@ -103,32 +103,54 @@
 .g-active { color:var(--bord); border:1px solid var(--bord-light); background:var(--bord-glow); }
 .g-next   { color:var(--ink); border:1px solid var(--border); background:var(--cream); }
 .g-done   { color:var(--white); border:1px solid var(--bord); background:var(--bord); }
-/* ══ CONTACT ══ */
-.contact-sec {
-  padding:6rem 5vw; background:var(--cream-2);
+/* ══ CONTACT CTA ══ */
+.contact-cta {
   border-top:1px solid var(--border);
-  display:grid; grid-template-columns:1.2fr 1fr; gap:6rem; align-items:center;
+  background:var(--bord);
+  position:relative; overflow:hidden;
 }
-.c-links { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); }
-.c-row {
-  background:var(--white); padding:1.4rem 1.6rem;
-  display:flex; justify-content:space-between; align-items:center;
-  text-decoration:none; transition:background .2s;
+.contact-cta-deco {
+  position:absolute; right:-6vw; top:-8vw;
+  width:30vw; height:30vw; max-width:350px; max-height:350px;
+  border-radius:50%; border:1px solid rgba(255,255,255,.06);
+  pointer-events:none;
 }
-.c-row:hover { background:var(--bord); }
-.c-lbl { font-size:.53rem; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:.2rem; font-weight:800;}
-.c-val { font-size:.88rem; font-weight:300; color:var(--bord); }
-.c-arr { color:var(--bord); font-size:.9rem; transition:transform .2s; }
-.c-row:hover .c-lbl { color:var(--ink); font-weight:400; }
-.c-row:hover .c-val { color:var(--white); }
-.c-row:hover .c-arr { color:var(--white); transform:translate(3px,-3px); }
+.contact-cta-inner {
+  padding:5rem 5vw;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:2rem;
+  position:relative; z-index:1;
+}
+.contact-cta-text h2 {
+  font-family:'Cormorant',serif; font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:300; color:var(--cream); line-height:1.05;
+}
+.contact-cta-text h2 em { font-style:italic; color:var(--gold-pale); }
+.contact-cta-text p {
+  font-size:.8rem; font-weight:300; color:rgba(244,241,225,.5);
+  margin-top:.6rem; letter-spacing:.02em;
+}
+.contact-cta-btn {
+  font-family:'Inter',sans-serif; font-size:.6rem; font-weight:400;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--bord); background:var(--cream);
+  border:1px solid var(--cream); padding:.8rem 2rem;
+  text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
+  transition:all .25s;
+}
+.contact-cta-btn::after { content:'→'; transition:margin-left .2s; }
+.contact-cta-btn:hover {
+  background:var(--white); box-shadow:0 4px 20px rgba(0,0,0,.15);
+  transform:translateY(-1px);
+}
+.contact-cta-btn:hover::after { margin-left:.2rem; }
 @media (max-width:1024px) {
   .page-hero { grid-template-columns:1fr; padding:4rem 5vw; gap:3rem; }
   .values-band { grid-template-columns:1fr; }
   .val-cell { border-right:none; border-bottom:1px solid rgba(255,255,255,.14); }
   .int-grid { grid-template-columns:1fr; }
   .tl-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:4rem; }
-  .contact-sec { grid-template-columns:1fr; padding:5rem 5vw; gap:3rem; }
+  .contact-cta-inner { flex-direction:column; text-align:center; align-items:center; }
 }
 </style>
 {% endblock %}
@@ -268,31 +290,15 @@
   </div>
 </section>
 
-<section class="contact-sec" aria-labelledby="c-h2">
-  <div>
-    <h2 class="h2 rv" id="c-h2" style="margin-top:.7rem">Évoluons <em>ensemble</em></h2>
-    <p class="prose rv" style="margin-top:1.2rem; margin-bottom:2rem; max-width:340px">
-      Disponible pour une alternances en septembre 2026.
-    </p>
-    <div class="rv" style="display:flex; gap:.8rem; flex-wrap:wrap">
-      <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="btn btn-bord">LinkedIn</a>
-      <a href="/projets" class="btn btn-ghost">Voir mes projets →</a>
+<section class="contact-cta" aria-label="Contact">
+  <div class="contact-cta-deco" aria-hidden="true"></div>
+  <div class="contact-cta-inner rv">
+    <div class="contact-cta-text">
+      <h2>Travaillons <em>ensemble</em></h2>
+      <p>Disponible pour une alternance à partir de septembre 2026.</p>
     </div>
+    <a href="/contact" class="contact-cta-btn">Me contacter</a>
   </div>
-  <nav class="c-links rv" aria-label="Contacts">
-    <a href="https://github.com/mart55555" target="_blank" rel="noopener noreferrer" class="c-row">
-      <div><span class="c-lbl">GitHub</span><span class="c-val">github.com/mart55555</span></div>
-      <span class="c-arr" aria-hidden="true">↗</span>
-    </a>
-    <a href="https://www.linkedin.com/in/adrien-martin-4a8121364/" target="_blank" rel="noopener noreferrer" class="c-row">
-      <div><span class="c-lbl">LinkedIn</span><span class="c-val">Adrien Martin</span></div>
-      <span class="c-arr" aria-hidden="true">↗</span>
-    </a>
-    <a href="mailto:21adrienmartin@gmail.com" class="c-row">
-      <div><span class="c-lbl">Email</span><span class="c-val">21adrienmartin@gmail.com</span></div>
-      <span class="c-arr" aria-hidden="true">↗</span>
-    </a>
-  </nav>
 </section>
 
 {% endblock %}

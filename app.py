@@ -9,7 +9,16 @@ projects = [
         "tech": ["Python"],
         "github": "https://github.com/mart55555/Jeu-Solitaire",
         "icon": "🃏",
-        "color": "#003366"
+        "color": "#003366",
+        "category": "Dev",
+        "year": "2024",
+        "images": ["/static/solitaire/solitaire1.png",
+                    "/static/solitaire/solitaire2.png",
+                    "/static/solitaire/solitaire3.png",
+                    "/static/solitaire/solitaire4.png",
+                    "/static/solitaire/solitaire5.png",
+                   ],
+        "url": ""
     },
     {
         "name": "Analyse JO 2024",
@@ -17,7 +26,17 @@ projects = [
         "tech": ["PL/SQL", "Oracle DB"],
         "github": "https://github.com/mart55555/Analyse-des-donnes-des-JO-2024",
         "icon": "🏅",
-        "color": "#9E1B32"
+        "color": "#9E1B32",
+        "category": "Data",
+        "year": "2024",
+        "images": [
+            "/static/Jo/requete1.png",
+            "/static/Jo/requete2.png",
+            "/static/Jo/requete3.png",
+            "/static/Jo/requete4.png",
+            "/static/Jo/requete5.png",
+        ],
+        "url": ""
     },
     {
         "name": "Bibliothèque de jeux vidéo",
@@ -25,7 +44,11 @@ projects = [
         "tech": ["PHP", "HTML", "CSS", "MySQL"],
         "github": "https://github.com/mart55555/Developpement-application-php",
         "icon": "🌐",
-        "color": "#003366"
+        "color": "#003366",
+        "category": "Dev",
+        "year": "2024",
+        "images": ["/static/bliblio.png"],
+        "url": ""
     },
     {
         "name": "Power BI Sales Analysis",
@@ -33,7 +56,11 @@ projects = [
         "tech": ["Power BI", "DAX"],
         "github": "https://github.com/mart55555/Power-bi-sales-analysis-",
         "icon": "📊",
-        "color": "#9E1B32"
+        "color": "#9E1B32",
+        "category": "Data",
+        "year": "2024",
+        "images": [],
+        "url": ""
     },
     {
         "name": "RestoN",
@@ -41,7 +68,19 @@ projects = [
         "tech": ["PHP", "HTML", "CSS", "MySQL"],
         "github": "https://github.com/mart55555/RestoN",
         "icon": "🍽️",
-        "color": "#003366"
+        "color": "#003366",
+        "category": "Dev",
+        "year": "2025",
+        "images": ["/static/restoN/reston.png",
+                   "/static/restoN/reston2.png",
+                   "/static/restoN/reston3.png",
+                   "/static/restoN/reston4.png",
+                   "/static/restoN/reston5.png",
+                   "/static/restoN/reston6.png",
+                   "/static/restoN/reston7.png",
+                   "/static/restoN/reston8.png"
+                   ],
+        "url": "https://reston.ovh"
     }
 ]
 
@@ -81,6 +120,10 @@ def home():
 def projets_view():
     all_projects = list(projects)
     return render_template('projets.html', projects=all_projects)
+
+@app.route('/contact')
+def contact_view():
+    return render_template('contact.html')
 
 @app.route('/Profil')
 def activites_view():
