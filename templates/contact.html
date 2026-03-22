@@ -4,23 +4,23 @@
 
 {% block extra_head %}
 <style>
-/* ══ PETIT HERO ══ */
+/* ══ HERO ROUGE ══ */
 .ct-hero {
-  background:var(--cream);
+  background:var(--bord);
   padding:5.5rem 5vw 2.5rem 9vw;
   position:relative;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
 .ct-hero::before {
   content:''; position:absolute; left:5vw; top:0; bottom:0; width:1px;
-  background:linear-gradient(to bottom, transparent 10%, var(--bord-light) 35%, var(--bord-light) 65%, transparent 90%);
+  background:linear-gradient(to bottom, transparent 10%, rgba(255,255,255,.15) 35%, rgba(255,255,255,.15) 65%, transparent 90%);
 }
 .ct-hero h1 {
   font-family:'Cormorant',serif; font-weight:300;
-  font-size:clamp(2.2rem,5vw,3.8rem); line-height:1; letter-spacing:.02em;
-  color:var(--ink);
+  font-size:clamp(2.6rem,5.5vw,4.2rem); line-height:1; letter-spacing:.02em;
+  color:var(--cream);
 }
-.ct-hero h1 em { font-style:italic; color:var(--bord); }
+.ct-hero h1 em { font-style:italic; color:var(--white); }
 
 /* ══ BODY ══ */
 .ct-body {
@@ -34,23 +34,15 @@
   border-right:1px solid var(--border);
   display:flex; flex-direction:column; justify-content:center;
 }
-.ct-section-lbl {
-  font-size:.5rem; font-weight:400; letter-spacing:.3em; text-transform:uppercase;
-  color:var(--bord); display:flex; align-items:center; gap:.7rem;
-  margin-bottom:.5rem;
-}
-.ct-section-lbl::before {
-  content:''; width:20px; height:1px; background:var(--bord);
-}
 .ct-section-title {
-  font-family:'Cormorant',serif; font-size:1.35rem; font-weight:300; font-style:italic;
-  color:var(--ink); margin-bottom:1.8rem;
+  font-family:'Cormorant',serif; font-size:1.6rem; font-weight:300; font-style:italic;
+  color:var(--bord); margin-bottom:1.8rem;
 }
 
 .ct-links { list-style:none; }
 .ct-link {
   display:block; text-decoration:none;
-  padding:1.2rem 0;
+  padding:1.4rem 0;
   border-bottom:1px solid var(--border);
   transition:padding-left .25s, background .2s;
   margin:0 -.8rem; padding-left:.8rem; padding-right:.8rem;
@@ -68,12 +60,12 @@
 }
 .ct-link-info { flex:1; }
 .ct-link-type {
-  font-size:.44rem; font-weight:500; letter-spacing:.26em; text-transform:uppercase;
-  color:var(--bord); display:block; margin-bottom:.05rem;
+  font-size:.55rem; font-weight:500; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--bord); display:block; margin-bottom:.1rem;
 }
-.ct-link-val { font-size:.88rem; font-weight:300; color:var(--ink); }
+.ct-link-val { font-size:1rem; font-weight:300; color:var(--ink); }
 .ct-link-go {
-  font-size:.7rem; color:var(--bord-light); transition:all .25s; flex-shrink:0;
+  font-size:.8rem; color:var(--bord-light); transition:all .25s; flex-shrink:0;
 }
 .ct-link:hover .ct-link-go { color:var(--bord); transform:translate(3px,-3px); }
 
@@ -85,15 +77,15 @@
 }
 
 .ct-form { display:flex; flex-direction:column; gap:1.2rem; margin-top:1.8rem; }
-.ct-field { display:flex; flex-direction:column; gap:.25rem; }
+.ct-field { display:flex; flex-direction:column; gap:.3rem; }
 .ct-label {
-  font-size:.46rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
+  font-size:.55rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
   color:var(--bord);
 }
 .ct-input, .ct-textarea {
-  font-family:'Inter',sans-serif; font-size:.85rem; font-weight:300;
+  font-family:'Inter',sans-serif; font-size:.95rem; font-weight:300;
   color:var(--ink); background:var(--white);
-  border:1px solid var(--bord-pale); padding:.75rem .9rem;
+  border:1px solid var(--bord-pale); padding:.8rem 1rem;
   border-radius:0; outline:none;
   transition:border-color .2s, box-shadow .2s;
   -webkit-appearance:none;
@@ -103,14 +95,14 @@
   border-color:var(--bord);
   box-shadow:0 0 0 3px var(--bord-glow);
 }
-.ct-textarea { resize:vertical; min-height:100px; line-height:1.7; }
+.ct-textarea { resize:vertical; min-height:120px; line-height:1.7; }
 .ct-row { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
 
 .ct-submit {
-  font-family:'Inter',sans-serif; font-size:.56rem; font-weight:400;
+  font-family:'Inter',sans-serif; font-size:.62rem; font-weight:400;
   letter-spacing:.22em; text-transform:uppercase;
   color:var(--white); background:var(--bord);
-  border:1px solid var(--bord); padding:.8rem 2rem;
+  border:1px solid var(--bord); padding:.85rem 2.2rem;
   cursor:pointer; transition:all .25s; align-self:flex-start;
   display:inline-flex; align-items:center; gap:.5rem;
   margin-top:.3rem;
@@ -123,10 +115,10 @@
 .ct-submit:hover::after { margin-left:.2rem; }
 
 .ct-success {
-  display:none; padding:1rem 1.3rem;
+  display:none; padding:1.2rem 1.5rem;
   background:var(--white); border:1px solid var(--bord-light);
   border-left:3px solid var(--bord);
-  font-size:.84rem; font-weight:300; color:var(--ink); line-height:1.7;
+  font-size:.95rem; font-weight:300; color:var(--ink); line-height:1.7;
   margin-top:1.8rem;
 }
 .ct-success.show { display:block; }
@@ -148,14 +140,13 @@
 
 <header class="ct-hero" aria-labelledby="ct-h1">
   <div class="ct-hero-inner">
-    <h1 class="rv" id="ct-h1">Prendre <em>contact</em></h1>
+    <h1 class="rv" id="ct-h1"><em>Contact</em></h1>
   </div>
 </header>
 
 <section class="ct-body">
 
   <div class="ct-left">
-    <p class="ct-section-lbl rv">Coordonnées</p>
     <h2 class="ct-section-title rv">Me retrouver</h2>
     <ul class="ct-links">
       <li>
@@ -198,11 +189,10 @@
   </div>
 
   <div class="ct-right">
-    <p class="ct-section-lbl rv">Message</p>
     <h2 class="ct-section-title rv">M'écrire directement</h2>
 
     <div id="ctSuccess" class="ct-success rv">
-      Merci pour votre message — je reviens vers vous très vite.
+      Merci pour votre message, je reviens vers vous très vite.
     </div>
 
     <div id="ctFormWrap" class="rv">

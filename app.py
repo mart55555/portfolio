@@ -28,7 +28,7 @@ projects = [
         "icon": "🏅",
         "color": "#9E1B32",
         "category": "Data",
-        "year": "2024",
+        "year": "2025",
         "images": [
             "/static/Jo/requete1.png",
             "/static/Jo/requete2.png",
@@ -46,8 +46,11 @@ projects = [
         "icon": "🌐",
         "color": "#003366",
         "category": "Dev",
-        "year": "2024",
-        "images": ["/static/bliblio.png"],
+        "year": "2025",
+        "images": ["/static/Biblio-app/biblio.png",
+                    "/static/Biblio-app/biblio2.png",
+                    "/static/Biblio-app/biblio3.png",
+                   ],
         "url": ""
     },
     {
@@ -58,19 +61,21 @@ projects = [
         "icon": "📊",
         "color": "#9E1B32",
         "category": "Data",
-        "year": "2024",
-        "images": [],
+        "year": "2025",
+        "images": ["/static/Bi1/bi1.png",
+                   "/static/Bi1/bi2.png"
+                   ],
         "url": ""
     },
     {
         "name": "RestoN",
-        "description": "Application de gestion de restaurant en PHP. Gestion des commandes, menus, réservations et interface d'administration.",
+        "description": "Application de gestion de restaurants en PHP. Gestion des commandes, menus, réservations et interface d'administration.",
         "tech": ["PHP", "HTML", "CSS", "MySQL"],
         "github": "https://github.com/mart55555/RestoN",
         "icon": "🍽️",
         "color": "#003366",
         "category": "Dev",
-        "year": "2025",
+        "year": "2026",
         "images": ["/static/restoN/reston.png",
                    "/static/restoN/reston2.png",
                    "/static/restoN/reston3.png",
