@@ -18,9 +18,7 @@
   <meta property="og:type" content="website">
 
   <!-- Favicon -->
-  <img src="{{ url_for('static', filename='favicon.png') }}"
-     alt="Logo AM"
-     style="width:30px;height:30px;">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 
   <!-- Données structurées Schema.org -->
   <script type="application/ld+json">
@@ -106,12 +104,20 @@
     }
     /* Badge favicon dans la nav */
     .nav-badge {
-      width:30px; height:30px; border-radius:4px;
-      display:flex; align-items:center; justify-content:center; flex-shrink:0;
-      box-shadow:0 2px 10px rgba(158,27,50,.22);
-      overflow:hidden;
+      width:30px;
+      height:30px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
     }
-    .nav-badge img { width:30px; height:30px; display:block; border-radius:4px; }
+
+    .nav-badge img {
+      width:30px;
+      height:30px;
+      display:block;
+      border-radius:0;
+    }
 
     .nav-links { list-style:none; display:flex; align-items:center; gap:2.4rem; }
     .nav-links a {
